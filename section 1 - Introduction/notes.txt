@@ -1,0 +1,49 @@
+Course Outline and Topics
+
+	Sections:
+		Introduction
+		Setup and File Structure
+		Components
+		Template Syntax
+		Events and Forms
+		Services and HTTP 
+		Angular Router
+		FAQ App project
+		ClientPanel Project (Part 1)
+		ClientPanel Project (Part 2)
+
+What is Angular?
+	
+	Angular is a client side JavaScript framework created and maintained by Google. It is used to build powerful front-end applications, and can be used with any back-end server and has great RESTful API interaction. 
+
+	It is a powerful part of the MEAN Stack (MongoDB, Express, Angular, NodeJS).
+
+Why use Angular?
+	
+	It's good for rapid front-end development and handles things that are very difficult to do with traditional JS (Routing, AJAX, etc.)
+	Code Generation and Scaffolding allows for generation of components, services, routes, etc. 
+	Good organization due to components being broken into their own pieces 
+	Services can stretch across all components that can send and receive data 
+	The content is dynamic, and can be updated on the fly. Variables, controls structures, loops, etc. can all be used
+	Cross platform compatibility, OS and browser doesn't affect Angular funcitonality 
+	It's unit test ready as it includes testing built in to the framework 
+
+Angular can be installed via quick start (github, boilerplate) or the angular command line interface (recommended), and it has Node.JS and NPM as dependencies. 
+
+
+Angular versions:
+
+	AngularJS / Angular 1, Angular2, and Angular4
+		=Angular3 was skipped due to misalignment of some packages in order to avoid confusion
+
+		AngularJS / Angular1 released in 2010
+			Competator to Ember and backbone, used controllers and scope (data binding)
+
+		Angular2 released in 2015
+			Complete rewrite of Angular1 / AngularJS, not more controllers or scope, now everything is in components
+				=> NOT BACKWARDS COMPATIBLE WITH ANGULAR1 / ANGULARJS
+
+		Angular4 released in 2017
+			Referred to as "Angular", backwards compatible with Angular 2 
+			Reduced size / more compact / faster compiling 
+			Most changes made under the hood

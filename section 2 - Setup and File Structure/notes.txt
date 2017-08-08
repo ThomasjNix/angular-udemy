@@ -1,0 +1,62 @@
+Using the Angular-CLI 
+
+	npm install -g @angular/cli // Install angular cli
+	ng new <appname> // Create angular project and set up all basic files 
+	ng serve // Start the application on the dev server, default port. Angular uses Webpack under the hood
+
+Angular file structure 
+
+	Root directory
+		Most things are just configuration files
+
+		package.json 
+			Most important thing in the root directory that will be used. 
+			Scripts: shortcuts that can be ran to do certain things (ex: npm start runs the command ng serve)
+			dependencies: Things that angular uses, packages that are required by angular
+			devDependences: Things that are only needed for development/testing, will not be deployed with the app
+
+		e2e and node_modules
+			e2e is for end to end testing, node_modules are for packages/modules that are required by angular 
+
+		src		
+			index.html is the core file that is loaded into the browser, the starting file / HTML file. 
+				<app-root> is where the angular application is inserted
+			main.ts handles the bootstrap and app modules (.ts is a TypeScript file, more on that below)
+
+			app - All components/services/etc go here
+				custom components go in nested folders inside the app folder, everything inside app gets compiled to production code / JS 
+			assets - Static stuff, CSS and images, etc
+			environment - Where certain variables for production/dev environment can be set, etc. 
+
+			angular-cli.json is a configuration file for the angular-cli, such as where output directory and source directory are defined, where scrips and styles are loaded, etc. 
+
+TypeScript
+
+	TypeScript isn't required to write angular code... but the code complexity of writing Angular in Vanilla JS is way too high.
+
+	TypeScript is a superset of vanilla JS created and maintained by Microsoft, and it is compiled down to regular JS. 
+
+	It is completely compatible / has many features of ES6 / ECMAScript6 / ES2015 
+
+	What's included: 
+
+		Static Typing
+		Class-based Objects
+		Modules
+		let/const scoping
+		Other ES6 features (ex: arrow functions)
+	In order for typescript to compile to JS, a typescript compiler is needed (TSC). When a TS file is saved, it's automatically compiled down to JS.
+
+	Typing 
+
+		JavaScript is not statically typed, value types don't need to be defined on creation / declaration. Typescript is optionally statically typed, variable / parameter / function types can be defined, but don't HAVE to be defined. 
+
+			let name:string='Some Name'; // Name is defined as a string variable
+
+			function addNumbers(num1:number, num2:number):number{ // Says that the parameter types and return type must be number
+				return num1+num2;
+			}
+
+	Object-based classes 
+
+		Has classes like other languages such as Java, and methods can be defined in these classes, as can constructors. This allows TypeScript to have the appearance/feel/functionality of OOLs that vanilla JS does not have.
