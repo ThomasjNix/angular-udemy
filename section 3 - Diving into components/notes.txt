@@ -1,0 +1,195 @@
+What is a component
+	Angular apps have a common structure made of modules, entities, and components 
+		Components are pieces of UI with their own functionality, such as headers, navbars, search bars, etc. 
+		Every angular components has a class containing properties and methods attached to it. 
+		THey also have templates associated with them, which is what the user actually sees
+			Data can be bound to the template and vice versa
+
+		Generally there is a root component and other components are nested inside of that component, and so on and so forth. Data can be passed to and from child/parent components 
+
+		Why use components?
+			Code organization
+			Break up the UI into pieces with encapsulated functionality
+			Promotes reusability 
+			Allows for better teamwork (multiple people can work on multiple pieces)
+
+		Structure of a component 
+
+			import { Component } from '@angular/core' // Brings in the core component from the angular core library
+
+			@Component({
+				selector: 'my-app', // The directive of where to put the component
+				template: `<h1>Hello {{name}}</h1>` // can also use template URL here rather than putting all the markup in the component file
+			})
+
+			export class AppComponent { // This is where the class is exported, the name is being bound to the component so in the browser it would say "hello cAngular"
+				name = "Angular"
+			}
+
+			(In the HTML file)
+
+			<my-app>Here is where the angular is rendered</my-app> // Must be the same as the selector given in the @Component
+
+			Angular lifecycle
+				Angular creates/updates/destroys components, certain lifecycle hooks can be placed to perform certain actions at certain points of the lifecycle, such as ngOnInit()  
+
+			Components can be generated quickly and easily. along with all the other information needed for them, using the angular-cli tools 
+
+				ng g component components/my-component  // G for Generate
+
+				-> Creates components/my-component.component.ts
+				-> Creates components/my-component.component.html
+				-> Creates components/my-component.component.css
+				-> Adds to @ngModule
+
+
+
+The NgModule - Essentially a registry for the rest of the application
+
+	In addition to components, there can also be modules. Every Angular application will have the NgModule 
+
+	the NgModule takes in declarations, imports, providers, and bootstrap
+
+	At the top there's the BrowserModule from angular/platform-browser
+		This handles displaying the Angular in the module 
+
+	NgModule comes from angular/core
+		Makes use of @NgModule 
+
+	Every COMPONENT needs to be imported to the app.module.ts and included in NgModule's declarations array
+
+	the providers array is for services, such as using ajax calls to import data. The service, before it can be used, must be included in the providers array.
+
+	bootstrap is JUST the root component in an array, it's what the angular app starts with.
+
+Creating Components
+
+	components/SandboxComponent.component.ts 
+
+		import { Component } from '@angular/core'
+
+		@Component({
+			selector: 'sandbox'
+			template: `HTML Template
+
+				allows for multiline use
+			`
+		})
+
+		export class SandboxComponent{} // Use Pascal case for this
+
+	app.component.html 
+
+		<sandbox></sandbox>
+
+	app.module.ts
+
+		import { SandboxComponent } from './components/sandbox.component'
+
+Data Binding and String Interpolation
+
+	 Giving a component a property like such: 
+
+		 export class SandboxComponent{
+		 	name = 'John Doe';
+		 }
+
+	 Allows for data binding to the template
+
+	 	@Component({
+	 		selector: 'sandbox'
+	 		template: `<h1>Hello {{ name  }}</h1>`
+	 	})
+
+	 So that in the view when it's rendered you will have 
+
+	 	Hello John Doe
+
+	 Methods can also be placed inside a component, including constructors
+
+	 export class SandboxComponent{
+		 	name = 'John Doe';
+
+		 	constructor(){
+		 		console.log('Constructor ran');
+		 		console.log(this); // 'this' refers to the class SandboxComponent
+		 	} // Will run as soon as the component is rendered
+		 }
+
+	variables can even be initialized in the component and set in some function or lifecycle hook
+
+	Custom methods can be created. Only the constructor runs automatically, but custom functions can be called in the template or in the constructor as well. 
+
+
+Types and Interfacts
+
+
+	export class SandboxComponent({
+		name:string = 'John Doe'; // This casts the name variable to a string
+
+		constructor(){
+			this.name = 35; // This gives an error, as name has been casted to a string 
+		}
+
+	})
+
+	:any can be used to allow for any type of variable 
+
+	:number[] for example can be used for an array of numbers 
+
+	Void 
+
+		unusable:void = undefined; // Must be undefined to have void type
+		u:undefined = undefined; // Must have undefined to have undefined type
+		n:null = null; // Must be null to have null type
+
+	Tuples
+
+		Can be defined to have multiple types 
+
+		myTuple: [string, number] = ['hello', 3];
+
+
+	Objects as properties 
+
+		export class SandboxComponent{
+			customer:{id:number, name:string, email:string} // Defining the typing of the customer
+
+			constructor(){
+				this.customer = {
+					id: 1,
+					name: 'John Doe',
+					email: 'example@example.com'
+				} // This format must be followed exactly, all fields MUST be filled.
+			}
+		}
+
+		Interfaces 
+			
+			This can be created so that customer doesn't have to be defined every time in every component 
+
+			now it's 
+
+				export class SandboxComponent{
+					customer:Customer
+
+					constructor(){ /// }
+				}
+
+				interfact Customer{
+					id: number,
+					name: string,
+					email: string
+				}
+
+			Interfaces can be included via seperate files so they don't have to be in the component file. 
+
+				export interfact Customer{
+					id: number,
+					name: string,
+					email: string
+				}
+
+				import { Customer } from './Customer'
+
+				// The rest of the file is as normal
