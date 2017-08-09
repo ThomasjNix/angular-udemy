@@ -1,0 +1,226 @@
+Mouse Events 
+
+	// in @Component
+	template: `
+		<button id="a_button" (click)="fireEvent($event, 'This is a value!')">Click Me</button> // When working with events, use parenthesis, that's where event listeners are handled
+	`
+	})
+
+	export class SandboxComponent{
+		fireEvent(e, value){
+			console.log("Here\'s a value: " + value);
+			console.log("Here\'s the event information: " + e);
+			console.log("Clicked from: " + e.target.btn);
+		}
+	}
+
+Changing properties with events 
+
+	// in @Component
+	template: `
+
+		<button (click)="changeVal()">Click me</button>
+		<h1 *ngIf="value">{{text}}</h1>
+	`
+	})
+
+	export class SandboxComponent{
+		value:boolean = true;
+		text = 'This is visible!';
+
+		changeVal(boolVal:boolean){
+			this.value = !this.value;
+		}
+	}
+
+		When the button is clicked, the value of value will be switched either from true to false or from false to true, and the h1 will either be displayed or not based off it
+
+Keyboard and Input events 
+
+	// in @Component
+	template: `
+		<input type="text" (keyup)="fireEvent($event)">
+		<input type="text" (keyup)="changeText($event) placeholder="change text">
+		<h1>{{ text }}</h1>
+
+	`
+	})
+
+	export class SandboxComponent{
+		text:string = 'Hello';
+		fireEvent(e){
+			console.log(e.type); 
+		};
+
+		changeText(e){
+			this.text = e.target.value;
+		}
+	}
+
+		//When a key is pressed, the console will log "keyup"
+		//There are many keyboard events, such as: keyup, keydown, focus, blur, copy, paste, and cut
+
+		//In the second function, as the value is changed via keyup event on the input, the text variable in the component is changed and the h1 is immediately updated (1-way data binding)
+			=> To make it 2-way data binding, simply add a value field to the input with {{text}} as the value.
+
+
+ngModel, a better way to do 2-way data binding
+
+	ngModel is a directive that is useful in 2-way data binding. In order to be used, it needs to be brought in to app.module.ts
+
+		// in app.module.ts
+
+		imnport {{ FormsModule }} from '@angular/forms'
+
+		// later in the @NgModule imports section
+
+			imports: [
+			BrowserModule, 
+			FormsModule
+			]
+
+		// in sandbox.components.ts, assuming bootstrap is being used
+
+			// in @Component
+			template: `
+				<div class="container">
+					<div class="form-group">
+						<label>Age</label>
+						<input [(ngModel)]="age" name="age" type="number" class="form-control">
+					</div>
+					<div class="form-group">
+						<label>Name</label>
+						<input [(ngModel)]="name" name="name"type="text" class="form-control">
+					</div>
+					<input type="submit" value="Submit" class="btn btn-success">
+
+					<h4 *ngIf="name && age">{{ name }} is {{ age }} years old.</h4>
+				</div>
+
+			`
+			})
+
+		export class SandboxComponent{
+			name:string = '';
+			age:number = 0;
+		}
+
+		Since ngModel is 2 way binding, both [] and () are needed. Also, a name property corresponding to the component variable name is needed.
+
+
+Form Submission 
+
+	// in @Component
+			template: `
+				<form (submit)="onSubmit()">
+					<div class="form-group">
+						<label>Name</label>
+						<input [(ngModel)]="name" name="name" type="text" class="form-control">
+					</div>
+
+					<input type="submit" class="btn btn-success" value="Submit">
+				</form>
+
+				<ul class="list-group">
+					<li class="list-group-item" *ngFor="let user of users">
+						{{ user }}
+					</li>
+				</ul>
+			})
+
+		export class SandboxComponent{
+			name:string = '';
+			users:string[] = ['John Doe', 'Another Name', 'Example'];
+
+			onSubmit(){
+				this.users.push(this.name);
+				this.name = '';
+			}
+		}
+
+		// Here when the submit event is triggered on the form, onSubmit will grab the information in the input field (it is 2-way bound), push it to the users array, 
+		// and then the ul will be updated with a new li, since it has been updated. It will then clear the text box.
+
+Template driven forms and form validation
+
+
+	// in @Component
+			template: `
+				<form (submit)="onSubmit()" novalidate #f="ngForm" (ngSubmit)="onSubmit(f)">
+					<div class="form-group">
+						<label>Name</label>
+						<input [(ngModel)]="user.name" name="name" type="text" class="form-control" #userName="ngModel" minlength="2" required>
+						<div *ngIf="userName.errors?.required && userName.touched" class="alert alert-danger">
+							Name is required
+						</div>
+						<div *ngIf="userName.errors?.minlength && userName.touched" class="alert alert-danger">
+							Name should be 2 characters minimum
+						</div>
+					</div>
+					<div class="form-group">
+						<label>Email</label>
+						<input [(ngModel)]="user.email" name="email" type="email" class="form-control" #userEmail="ngModel" minlength="2" required>
+						<div *ngIf="userEmail.errors?.reqiured && userEmail.touched" class="alert alert-danger">
+							Email is required
+						</div>
+					</div>
+					<div class="form-group">
+						<label>Phone Number</label>
+						<input [(ngModel)]="user.phone" name="phone" type="text" class="form-control">
+						</div>
+						<div *ngIf="userPhone.errors?.minlength && userPhone.touched" class="alert alert-danger">
+							Please enter a valid number
+						</div>
+					<input type="submit" class="btn btn-success" value="Submit">
+				</form>
+
+				<ul class="list-group">
+					<li class="list-group-item" *ngFor="let user of users">
+						{{ user }}
+					</li>
+				</ul>
+			})
+
+		export class SandboxComponent{
+			user = {
+				name: '',
+				email: '',
+				phone: ''
+			};
+
+			onSubmit({value, valid}){
+				if (valid){
+
+				}else{
+
+				}
+			};
+		}
+
+		So this is a lot, to break it down: 
+
+		(submit)="onSubmit()"
+			Sets the submit event for the form to fire the onSubmit() method
+		novalidate
+			Allows for custom defined validation (default HTML validation errors don't show)
+		#f="ngForm"
+			Sets the form to be an angular form, allowing for certain controls and functionality
+		(ngSubmit)="onSubmit(f)"
+			Tells the form to call the onSubmit function with the form object (has value and valid properties) on the ngSubmit event
+		[(ngModel)]="user.name"
+			2-way binding to user.name
+		[(ngModel)]="user.email"
+			2-way binding to user.email
+		[(ngModel)]="user.phone"
+			2-way binding to user.phone
+		userName.errors?.required && userName.touched
+			Checks #userName for errors, if a required error is found and the input has been touched (clicked on and clicked away), the error div is shown
+		userName.errors?.minlength && userName.touched
+			Checks #userName for errors, if the minimum length has not been met and it has been touched (clicked on and clicked away), the error div is shown
+		#userName="ngModel"
+		#userEmail="ngModel"
+		#userPhone="ngModel"
+		minlength="2"
+			Sets the minimum length of the field to be 2 (error given if not)
+		required
+			Sets the field to be required for submission (error given if not)
