@@ -1,0 +1,123 @@
+Template Files and Stylesheets 
+
+	A template file can be used rather than templating directly inside the component file by using templateUrl instead of just template, and specifying a path to the corresponding .component.html file
+
+		templateUrl: `sandbox.component.html`
+
+	the styles property can be used to set styles
+
+	styles: [`
+		.special{
+			color: green;
+			font-size: 20px;
+		}
+	`]
+		the class special will now have effect on the template file if used 
+
+	A stylesheet can also be used in a similar way to a template page 
+
+		styleUrls: ['./sandbox.component.css', './sandbox2.component.css'];
+
+			Multiple style sheets can be rendered this way
+
+
+Looping with ngFor
+
+	If you have an array and simply put {{ arrayName }} on the template, it will simply seperate the array with commas and print them. 
+
+	If the goal is to do something with each of the elements however, ngFor needs to be used. 
+
+	<ul>
+		<li *ngFor="let person of people">
+			{{ person }}
+		</li>
+	</ul>
+
+	The *ngFor="let person of people" is essentially a block level forEach loop for an angular array, it is placed inside the li tag so that every li created (one for each element in the array) will have a {{ person }} value of that iteration of the ngFor loop
+ 		
+ 		An index can be added by modifying the loop 
+
+ 		<li *ngFor="let person of people; let i = index">
+ 			{{i}}. {{person}}
+ 		</li>
+
+
+ngIf and ngSwitch conditionals 
+
+	Assume the following: 
+
+		@Component({
+			selector: 'sandbox',
+			template: `
+				<h1>Hello 
+					<span *ngIf="showName">{{ name }}</span>
+					<span *ngIf="!showName">{{ 'Some other name' }}</span>
+				</h1>
+			`
+
+		})
+
+		export class SandboxComponent{
+			name:string = 'Some name';
+			showName:boolean = true;
+		}
+
+		This will show 'Some name' if showName is true and 'Some other name' if showName is false. 
+
+
+		ng-template: 
+
+			ASsume the following: 
+
+			<span *ngIf="showName; else noName">{{ name }}</span?
+			<ng-template #noName></ng-template>
+
+			if showName is false, the noName template will be shown! Only ONE ID CAN BE USED PER TEMPLATE, JUST LIKE CSS/HTML
+
+
+		ngSwitch 
+
+			Switch case can be used like so: 
+
+			(sandbox.component.html)
+				<sandbox [ngSwitch]="greeting">
+					<div *ngSwitchCase="'1'">Hello {{ name }}</div>
+					<div *ngSwitchCase="'2'">Hello Universe</div>
+					<div *ngSwitchCase="'3'">Hello Darkness My Old Friend</div>
+					<div *ngSwitchDefault>Hello in General?</div>
+				</sandbox>
+
+			(sandbox.component.ts)
+
+				import { Component } from '@angular/core'
+
+				@Component({
+					selector: 'sandbox'
+					template: `./sandbox.component.html`
+				})
+
+				export class SandboxComponent{
+					name = 'John doe';
+					greeting = '1';
+				}
+
+				depending on the greeting set by the export class SandboxComponent, the proper div would be rendered.
+
+
+
+Property Binding
+
+	There are three ways to bind properties: 
+
+		<div><img src="{{ imgUrl }}"></div> // imgUrl set in the export 
+
+		<div><img [src]="imgUrl"></div> // imgUrl set in the export, does not have to be a string, {{}} not needed!
+
+		<div><img bind-src="imgUrl"></div> // no src tag needed, imgUrl set in export
+
+
+ngStyle and ngClass binding 
+
+
+
+Pipes
