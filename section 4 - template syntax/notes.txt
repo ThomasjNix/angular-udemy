@@ -117,7 +117,116 @@ Property Binding
 
 
 ngStyle and ngClass binding 
+	
+	ngClass
 
+		template: `
+
+			<h4>[class.special]="isSpecial">This class binding is special</h4>
+		`,
+			styles: [
+			`
+				.special{
+					color: green;
+				}
+			`
+			]
+		
+
+		//later
+
+		export class SandboxComponent{
+			isSpecial = true;
+			canSave = true;
+		}
+
+		While isSpecial is true, the class special is applied, and if isSpecial is false, the class is not applied. 
+			class.special is being put on the element only when isSpecial is true.
+
+		ngClass allows for this, but also allows for multiple classes to be set.
+
+			template: `
+
+			<h4>[ngClass]="currentClass">This class binding is special</h4>
+			`,
+			styles: [
+			`
+				.special{
+					color: green;
+				}
+				.upperCase{
+					text-transform: uppercase;
+				}
+			`
+			]
+		
+
+			//later 
+
+			export class SandboxComponent{
+				isUpper = true;
+				isSpecial = true;
+				currentClasses = {};
+
+				constructor(){
+					this.setCurrentClasses();
+				}
+
+				setCurrentClasses(){
+					this.currentClasses = {
+						upperCase: this.isUpper,
+						special: this.isSpecial
+					}
+				}
+			}
+
+			when setCurrentClasses is executed in the constructor, the classes upperCase and special are added to currentClasses, and they will be applied wherever [ngClass]="currentClass" is given. 
+			If one is set to false, that will no longer apply.
+
+	ngStyle 
+
+		An example of how styles can be dynamically applied
+
+
+			template: `
+				<div [ngStyle]="currentStyles">The size of this text depends on the SandboxComponent isUpper value!</div>
+			`
+
+		export class SandboxComponent{
+			isUpper = false;
+			currentStyles = {}'
+
+			constructor(){
+				this.setCurrentStyles();
+			}
+			setCurrentStyles(){
+				this.currentStyles = {
+					'font-size' : this.isUpper ? '24px' : '14px'
+				}
+			}
+		}
 
 
 Pipes
+	
+	Pipes can be used to assist in adjusting values as they are needed to be displayed. Below the | operator with the date pipe is given to birthday to make it more readable
+
+	template: `
+		<p>Birthday is: {{birthday | date}}</p>
+	`
+	export class SandboxComponent{
+		birthday = new Date(1981, 1, 15);
+	}
+
+	Some pipes can even take in parameters, for example: 
+
+	{{ birthday | date:"MM-dd-yy"}}
+
+	Some other pipe examples 
+		{{ birthday | date:'yyyy'}} // 1981
+		{{ 'name' | uppercase }} // NAME
+		{{ 'NAME' | lowercase }} // name
+		{{ 500 | currency}} //USD500.00
+		{{ 500 | currency:"GBP"}} //GBP500.00
+		{{ 500 | currency:"USD:"1"}} //$500.00
+		{{ 0.5 | percent}} // 50%
