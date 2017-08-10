@@ -12,3 +12,9 @@
 <p>To keep track of my live portfolio project as I learn more about MEAN stack and build a good looking, functional, responsive SPA portfolio, check <a href="https://github.com/ThomasjNix/portfolio-live">here</a>! (Note: Previous or later versions may or may not include what you see here, this project is updated frequently with new material, and may be subject to vast changes while in development).</p>
 
 <h3>Happy Coding!</h3>
+
+<p><strong>Update</strong>: I have added a repository where I will be testing some angular features and using the commit history as a reference for how some things work. Think of this repository as where my notes are taken, and the following as a sandbox for practice :)</p>
+
+<br>
+
+<a href="https://github.com/ThomasjNix/basic-angular-examples">Angular 4 practice repo</a>
